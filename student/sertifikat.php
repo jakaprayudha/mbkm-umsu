@@ -35,6 +35,15 @@ require '../controller/view.php';
          color: #fff;
       }
 
+      /* Header */
+      .header {
+         background: linear-gradient(135deg, #512da8, #673ab7);
+         padding: 20px;
+         display: flex;
+         align-items: center;
+         color: #fff;
+      }
+
       .header img {
          width: 50px;
          height: 50px;
@@ -56,6 +65,7 @@ require '../controller/view.php';
          font-size: 14px;
          color: #e0e0e0;
       }
+
 
       /* Main Content */
       .main {
