@@ -14,7 +14,7 @@ $page = $segments[3] ?? ''; // Ambil 'dashboard-mbkm'
       <i class="fas fa-file"></i>
       <span>Laporan</span>
    </a>
-   <a href="sertifkat" <?php if ($page == 'sertifikat') echo 'class="active"'; ?>>
+   <a href="sertifikat" <?php if ($page == 'sertifikat') echo 'class="active"'; ?>>
       <i class="fas fa-certificate"></i>
       <span>Sertifikat</span>
    </a>
