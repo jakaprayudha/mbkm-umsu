@@ -13,12 +13,12 @@
          <i class="fas fa-cog"></i>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-         <li><a class="dropdown-item" href="javascript:;">Help Desk</a></li>
-         <li><a class="dropdown-item" href="javascript:;">Call Center WA</a></li>
+         <li><a class="dropdown-item" href="help-desk">Help Desk</a></li>
+         <li><a class="dropdown-item" href="https://wa.me/6282166524717" target="_blank">Call Center WA</a></li>
          <li>
             <hr class="dropdown-divider">
          </li>
-         <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+         <li><a class="dropdown-item" href="../controller/logout?id=<?= $_SESSION['username'] ?>">Logout</a></li>
       </ul>
    </div>
 </div>
