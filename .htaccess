@@ -6,7 +6,7 @@ RewriteRule ^(.*)$ $1.php
 Options -Indexes
 ErrorDocument 403 http://192.168.1.16
 
-php_value display_errors 1
+php_value display_errors 0
 php_value memory_limit 512M
 php_value session.gc_maxlifetime 21600
 php_value session.cookie_lifetime 21600
