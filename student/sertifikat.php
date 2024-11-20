@@ -27,7 +27,6 @@ var_dump($npm);
    <?php
    require 'header.php';
    ?>
-
    <!-- Main Content -->
    <div class="main">
       <h2>Sertifikat</h2>

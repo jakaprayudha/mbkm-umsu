@@ -31,7 +31,6 @@ $dataprogram = mysqli_fetch_array($getprogram);
    ?>
    <!-- Main Content -->
    <div class="main">
-      <br><br><br><br>
       <h2 class="">Profile</h2>
       <p>
          Data profile ini terdiri dari data pribadi dan data kepesertaan Program MBKM anda
