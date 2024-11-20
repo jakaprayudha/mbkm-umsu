@@ -7,112 +7,21 @@ require 'controller/auth.php';
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Web Splash Screen</title>
+   <title>MBKM</title>
 
    <!-- <script src="assets/js/sweet-alert/sweetalert.min.js"></script> -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+   <link rel="stylesheet" href="assets/style.css" />
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <style>
-      /* Reset dasar */
-      * {
-         margin: 0;
-         padding: 0;
-         box-sizing: border-box;
+      .text-start h1 {
+         margin-bottom: 0.25rem;
+         /* Adjust the spacing between the h1 and p */
       }
 
-      body {
-         font-family: Arial, sans-serif;
-         height: 100vh;
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         background-color: #f4f4f9;
-         overflow: hidden;
-      }
-
-
-      /* Splash Screen */
-      #splash {
-         position: fixed;
-         top: 0;
-         left: 0;
-         width: 100%;
-         height: 100%;
-         background: linear-gradient(135deg, #512da8, #673ab7);
-         display: flex;
-         justify-content: center;
-         align-items: center;
-         z-index: 1000;
-         transition: opacity 0.5s ease-out;
-      }
-
-      #splash img {
-         max-width: 100%;
-         max-height: 100%;
-         width: auto;
-         height: auto;
-         animation: fadeInOut 2s linear infinite;
-      }
-
-
-      @keyframes bounce {
-
-         0%,
-         100% {
-            transform: translateY(0);
-         }
-
-         50% {
-            transform: translateY(-20px);
-         }
-      }
-
-      /* Login Form */
-      #login-container {
-         display: none;
-         text-align: center;
-         width: 100%;
-         max-width: 400px;
-         padding: 20px;
-         background-color: #ffffff;
-         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-         border-radius: 12px;
-      }
-
-      #login-container img {
-         width: 100px;
-         height: 100px;
-         margin-bottom: 20px;
-      }
-
-      #login-container h1 {
-         font-size: 1.5rem;
-         color: #333;
-         margin-bottom: 20px;
-      }
-
-      #login-container input {
-         width: 100%;
-         padding: 10px;
-         margin-bottom: 15px;
-         border: 1px solid #ccc;
-         border-radius: 8px;
-      }
-
-      #login-container button {
-         width: 100%;
-         padding: 10px;
-         background-color: #512da8;
-         color: white;
-         font-size: 1rem;
-         border: none;
-         border-radius: 8px;
-         cursor: pointer;
-         transition: background-color 0.3s ease;
-      }
-
-      #login-container button:hover {
-         background-color: #6a4fc7;
+      .text-start p {
+         margin-top: 0;
+         /* Remove top margin from p */
       }
    </style>
 </head>
@@ -120,19 +29,42 @@ require 'controller/auth.php';
 <body>
    <!-- Splash Screen -->
    <div id="splash">
-      <img src="splash.png" alt="Logo">
+      <img src="mbkmumsu.svg" alt="Logo">
+   </div>
+   <!-- Login Form -->
+   <div id="login-container" class="card">
+      <!-- <img src="mbkmumsu.svg" width="300" alt="Logo"> -->
+      <div class="card-body text-center">
+         <div class="text-start">
+            <h1>Haloo MBKM !!</h1>
+            <p class="small-font">Semua aktivitas kegiatan MBKM anda laporkan melalui MBKM APP </p>
+         </div>
+         <form action="" method="POST">
+            <input type="text" name="username" placeholder="Username" required class="form-control mb-3">
+            <div class="input-group mb-3">
+               <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+            </div>
+            <button type="submit" name="login" class="btn btn-primary w-100">Login</button>
+         </form>
+      </div>
    </div>
 
-   <!-- Login Form -->
-   <div id="login-container">
-      <img src="mbkmumsu.svg" width="300" alt="Logo">
-      <h1>Login</h1>
-      <form action="" method="POST">
-         <input type="text" name="username" placeholder="Username" required>
-         <input type="password" name="password" placeholder="Password" required>
-         <button type="submit" name="login">Login</button>
-      </form>
-   </div>
+   <!-- Add Bootstrap Icons for the Show/Hide icon -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+   <script>
+      // Toggle password visibility
+      document.getElementById('togglePassword').addEventListener('click', function() {
+         const passwordField = document.getElementById('password');
+         const type = passwordField.type === 'password' ? 'text' : 'password';
+         passwordField.type = type;
+
+         // Toggle the icon based on password visibility
+         const icon = this.querySelector('i');
+         icon.classList.toggle('bi-eye-slash'); // Show the "hide" icon
+         icon.classList.toggle('bi-eye'); // Show the "show" icon
+      });
+   </script>
    <?php
    // Cek jika ada pesan sukses
    if (isset($_SESSION['sukses'])) {
@@ -145,14 +77,30 @@ require 'controller/auth.php';
    }
    // Cek jika ada pesan error
    if (isset($_SESSION['error'])) {
-      echo "<script>
-    Swal.fire('Perhatian!', '" . $_SESSION['error'] . "', 'error').then(function() {
-      window.location = '" . $_SESSION['redirectlogin'] . "';
-    });
-  </script>";
+      echo "<div class='toast-container position-fixed bottom-0 end-0 p-3'>
+           <div class='toast show' role='alert' aria-live='assertive' aria-atomic='true'>
+               <div class='toast-header'>
+                   <strong class='me-auto'>Error</strong>
+                   <button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>
+               </div>
+               <div class='toast-body'>
+                   " . $_SESSION['error'] . "
+               </div>
+           </div>
+       </div>
+       <script>
+           var toast = new bootstrap.Toast(document.querySelector('.toast'));
+           toast.show();
+           toast._element.addEventListener('hidden.bs.toast', function () {
+               window.location = 'student/index'; // Redirect after toast hides
+           });
+       </script>";
       unset($_SESSION['error']);
    }
    ?>
+   <!-- Add Bootstrap Icons for the Show/Hide icon -->
+   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
    <script>
       // Splash screen logic
       document.addEventListener("DOMContentLoaded", function() {
@@ -171,6 +119,7 @@ require 'controller/auth.php';
          }, 3000); // Splash duration 3 seconds
       });
    </script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 
 </html>
