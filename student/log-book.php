@@ -85,9 +85,6 @@ $program = $data['id_peserta'];
                                  <p style="font-size: 12px;">Deskripsi : <?= $datalog['description'] ?> </p>
                                  <p class="small-font">Luaran Aktivitas : <?= $datalog['outcome'] ?></p>
                               </div>
-                              <a href="" target="_blank" download="">
-                                 <span class="badge text-bg-primary">Download File</span>
-                              </a>
                            </li>
                         <?php endforeach ?>
                      </ol>
