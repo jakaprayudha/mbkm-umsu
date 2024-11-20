@@ -1,0 +1,532 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:wght@300;400;500;600;700;800&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Lato", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.section {
+  padding-top: 2rem;
+  background-color: #0095da;
+  height: 100vh;
+}
+
+.address-wrapper {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+}
+
+.address-wrapper > p {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 12px;
+  margin-left: 4px;
+  margin-right: 4px;
+  font-weight: 800;
+}
+
+.address-wrapper > p > span {
+  color: white;
+}
+
+.main-body-wrapper {
+  background-color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  min-height: 100vh;
+  padding-bottom: 4rem;
+  position: relative;
+}
+
+.menu {
+  background: white;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  padding: 8px 16px;
+  width: 100%;
+  box-shadow: 0 0 24px -4px rgb(0 0 0 / 12%);
+}
+
+.menu-flex {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+}
+
+.menus-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.menus-item > span {
+  font-size: 11px;
+  margin-top: 4px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.searchbar-wrapper {
+  padding: 8px 1rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.searchbar {
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  padding: 8px;
+  border-radius: 8px;
+  min-width: 275px;
+}
+
+.searchbar > input {
+  border: 0;
+  background-color: transparent;
+}
+
+.searchbar > input:focus {
+  outline: none;
+}
+
+.searchbarglass {
+  background-color: #0095da;
+  padding: 6px;
+  width: 40px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.login-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.login-wrapper > h1 {
+  font-size: 14px;
+  color: #0095da;
+}
+
+/*
+  Banner
+*/
+
+.banner-wrapper {
+  width: 100%;
+  padding: 8px;
+}
+
+.banner-scroll {
+  display: flex;
+  overflow: scroll;
+}
+
+.banner-scroll > img {
+  width: 100%;
+  padding: 0 8px;
+  border-radius: 10px;
+}
+
+.banner-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.banner-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 0 8px;
+  align-items: center;
+}
+
+.banner-footer > h1 {
+  font-size: 14px;
+  color: #0095da;
+}
+
+.banner-footer-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dots {
+  height: 6px;
+  width: 6px;
+  border-radius: 50%;
+  background-color: #858585;
+}
+
+.active {
+  border-radius: 10px;
+  width: 12px;
+  background-color: #0095da;
+}
+
+/* Menu */
+
+.menu-wrapper {
+  width: 100%;
+  padding: 0 12px;
+  margin-top: 1.5rem;
+}
+
+.menu-scroll {
+  display: flex;
+  gap: 2rem;
+  overflow: scroll;
+  padding: 8px 0;
+}
+
+.menu-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 60px;
+  position: relative;
+}
+
+.menu-item > img {
+  height: 32px;
+  width: 32px;
+}
+
+.menu-item > span {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.6);
+  max-width: 50px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.new-badge {
+  position: absolute;
+  background-color: #ed1c24;
+  width: 26px;
+  height: 14px;
+  top: -6px;
+  right: -10px;
+  color: #fff;
+  font-size: 10px;
+  border-radius: 8px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Info Untukmu */
+
+.info-wrapper {
+  background-color: #daf3ff;
+  padding: 1rem;
+  border-radius: 20px;
+  margin-top: 1.5rem;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-container > h1 {
+  font-size: 16px;
+}
+
+.info-detail {
+  background-color: white;
+  display: flex;
+  padding: 8px;
+  border-radius: 8px;
+  max-width: 300px;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.info-detail-right {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-detail-right > h1 {
+  font-size: 14px;
+}
+.info-detail-right > p {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  margin-top: 8px;
+}
+
+.info-detail > img {
+  object-fit: contain;
+  width: 75px;
+}
+
+/* Promo */
+
+.promo-wrapper {
+  width: 100%;
+  margin-top: 8px;
+  padding: 0 12px;
+}
+
+.promo-wrapper > img {
+  width: 100%;
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+/* Flash Sale */
+
+.flash-wrapper {
+  margin-top: 1rem;
+  background-image: url("https://www.static-src.com/siva/asset//03_2022/fs-bg-mar-mweb.png");
+  background-size: cover;
+  background: no repeat top right;
+  background-color: #0eb3ff;
+  height: 100%;
+  border-radius: 20px;
+  width: 100%;
+}
+
+.flash-container {
+  padding: 1rem;
+  width: 100%;
+  overflow: scroll;
+}
+
+.flash-container-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flash-container-header > h1 {
+  font-size: 14px;
+  color: #fff;
+}
+
+.flash-logo-timer {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.timer {
+  background-color: white;
+  display: flex;
+  padding: 8px 8px;
+  justify-content: center;
+  align-items: center;
+  color: #ef3b42;
+  border-radius: 100px;
+  font-weight: 800;
+  font-size: 14px;
+  gap: 3px;
+}
+
+.flash-container-scroll {
+  display: flex;
+  overflow: scroll;
+  margin-top: 1rem;
+  gap: 8px;
+}
+
+.flash-container-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.flash-item {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 132px;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.flash-item-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 8px 8px;
+}
+
+.flash-item-container > img {
+  width: 100%;
+  height: 100%;
+}
+
+.flash-item-container > h1 {
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.87);
+  margin-bottom: 8px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+.flash-item-container > h2 {
+  color: #f37021;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.flash-discount {
+  display: flex;
+  gap: 4px;
+  margin-top: 2px;
+  align-items: center;
+}
+
+.flash-discount > span {
+  text-decoration: line-through;
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.38);
+}
+
+.discount {
+  color: #ed1c24;
+  background-color: #f9b9bc;
+  border-radius: 8px;
+  padding: 1px 4px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.sold-bar {
+  margin-top: 8px;
+  position: relative;
+  background-color: #fac280;
+  height: 18px;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.sold-progress {
+  background: linear-gradient(
+    270deg,
+    rgb(243, 113, 32) 0%,
+    rgb(249, 178, 98) 100%
+  );
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sold-progress > svg {
+  height: 18px;
+}
+
+.sold-progress > h1 {
+  font-size: 11px;
+  color: #fff;
+}
+
+/* Collab */
+
+.collaboration-wrapper {
+  margin-top: 2rem;
+  padding: 0 12px;
+}
+
+.collaboration-wrapper > h1 {
+  font-size: 16px;
+}
+
+.collaboration-grid {
+  display: grid;
+  grid-template-areas:
+    "SLIDER STORE_1"
+    "SLIDER STORE_2"
+    "STORE_3 STORE_4";
+  gap: 8px;
+  margin-top: 1rem;
+}
+
+.collaboration-grid > img {
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+/* Bliblimart */
+
+.blimart-wrapper {
+  margin-top: 2rem;
+  padding: 0 12px;
+}
+
+.blimart-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blimart-header > h1 {
+  font-size: 16px;
+}
+
+.blimart-header > h2 {
+  color: #0095da;
+  font-size: 14px;
+}
+
+.blimart-scroll {
+  display: flex;
+  overflow: scroll;
+  margin-top: 1rem;
+}
+
+.blimart-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.blimart-item {
+  flex-shrink: 0;
+  max-width: 175px;
+  position: relative;
+}
+
+.blimart-item > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 18px;
+}
+
+.blimart-info {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 8px;
+}
+
+.blimart-info > img {
+  width: 15px;
+}
+
+.blimart-info > span {
+  font-size: 11px;
+}
