@@ -7,7 +7,7 @@ require '../controller/view.php';
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Mobile App Template</title>
+   <title>MBKM</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
    <style>
       /* Reset dasar */
@@ -96,19 +96,45 @@ require '../controller/view.php';
          color: #673ab7;
       }
 
+
       /* Responsif */
       @media (max-width: 768px) {
+
+         /* Header */
+         .header {
+            background: linear-gradient(135deg, #512da8, #672ab7);
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            position: fixed;
+            /* Navbar tetap di posisi atas */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+         }
+
          .header img {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            margin-right: 15px;
+         }
+
+         .header .user-info {
+            flex-grow: 1;
          }
 
          .header .user-info h1 {
-            font-size: 16px;
+            font-size: 20px;
+            margin: 0;
          }
 
          .header .user-info p {
+            margin: 1px 0 0;
             font-size: 12px;
+            color: #e0e0e0;
          }
       }
    </style>
@@ -141,6 +167,7 @@ require '../controller/view.php';
 
    <!-- Main Content -->
    <div class="main">
+      <br><br><br>
       <h2>Dashboard</h2>
       <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
          <div class="carousel-inner">
@@ -182,7 +209,34 @@ require '../controller/view.php';
             <span class="visually-hidden">Next</span>
          </button>
       </div>
-
+      <?php
+      $user = $_SESSION['username'];
+      $check = mysqli_query($koneksi, "SELECT * FROM ms_mahasiswa WHERE email ='$user' ");
+      $data = mysqli_fetch_array($check);
+      if ($data['tempat_lahir'] == NULL) { ?>
+         <div class="alert mt-3 alert-warning d-flex align-items-center" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <div>
+               Lengkapi data diri anda pada halaman profile untuk menjelajah fitur mbkm apps
+            </div>
+         </div>
+      <?php }
+      ?>
+      <div class="row mt-3">
+         <?php
+         $getprogram = tampildata("SELECT * FROM ms_program_mbkm ");
+         ?>
+         <?php foreach ($getprogram as $data): ?>
+            <div class="col-6">
+               <div class="card">
+                  <div class="card-body">
+                     <h5 class="card-title"><?= $data['program_mbkm'] ?></h5>
+                     <span class="badge bg-danger">Kuota : <?= $data['kuota'] ?></span>
+                  </div>
+               </div>
+            </div>
+         <?php endforeach ?>
+      </div>
       <!-- Custom CSS -->
       <style>
          .card {
