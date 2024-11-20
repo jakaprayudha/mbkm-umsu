@@ -1,5 +1,13 @@
 <?php
 require '../controller/view.php';
+require '../controller/logbook.php';
+$user = $_SESSION['username'];
+$checkuser = mysqli_query($koneksi, "SELECT * FROM ms_mahasiswa WHERE email = '$user' ");
+$datauser = mysqli_fetch_array($checkuser);
+$npm = $datauser['id_mahasiswa'];
+$checkprogram = mysqli_query($koneksi, "SELECT * FROM student_mbkm WHERE npm='$npm'");
+$data = mysqli_fetch_array($checkprogram);
+$program = $data['id_peserta'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,156 +17,17 @@ require '../controller/view.php';
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Mobile App Template</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   <style>
-      /* Reset dasar */
-      * {
-         margin: 0;
-         padding: 0;
-         box-sizing: border-box;
-      }
-
-      body {
-         font-family: Arial, sans-serif;
-         background-color: #f4f4f9;
-         display: flex;
-         flex-direction: column;
-         min-height: 100vh;
-         margin: 0;
-      }
-
-      /* Header */
-      .header {
-         background: linear-gradient(135deg, #512da8, #673ab7);
-         padding: 20px;
-         display: flex;
-         align-items: center;
-         color: #fff;
-      }
-
-      .header img {
-         width: 50px;
-         height: 50px;
-         border-radius: 50%;
-         margin-right: 15px;
-      }
-
-      .header .user-info {
-         flex-grow: 1;
-      }
-
-      .header .user-info h1 {
-         font-size: 18px;
-         margin: 0;
-      }
-
-      .header .user-info p {
-         margin: 5px 0 0;
-         font-size: 14px;
-         color: #e0e0e0;
-      }
-
-      /* Main Content */
-      .main {
-         flex: 1;
-         padding: 20px;
-      }
-
-      /* Bottom Navigation */
-      .bottom-nav {
-         position: fixed;
-         bottom: 0;
-         left: 0;
-         width: 100%;
-         background: #fff;
-         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-         display: flex;
-         justify-content: space-between;
-         padding: 10px 0;
-      }
-
-      .bottom-nav a {
-         flex-grow: 1;
-         text-align: center;
-         text-decoration: none;
-         color: #757575;
-         font-size: 12px;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-      }
-
-      .bottom-nav a i {
-         font-size: 20px;
-         margin-bottom: 5px;
-      }
-
-      .bottom-nav a.active {
-         color: #673ab7;
-      }
-
-      /* Responsif */
-      @media (max-width: 768px) {
-         .header img {
-            width: 40px;
-            height: 40px;
-         }
-
-         .header .user-info h1 {
-            font-size: 16px;
-         }
-
-         .header .user-info p {
-            font-size: 12px;
-         }
-      }
-
-      .btn-ungu {
-         background-color: #6f42c1;
-         /* Warna ungu */
-         border-color: #6f42c1;
-         /* Border ungu */
-      }
-
-      .btn-ungu:hover {
-         background-color: #5a32a3;
-         /* Warna ungu lebih gelap saat hover */
-         border-color: #5a32a3;
-      }
-
-      .small-font {
-         font-size: 0.8rem;
-         /* Ukuran font yang lebih kecil */
-      }
-   </style>
    <!-- Ikon FontAwesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-   <style>
-      .counter-card {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         text-align: center;
-         color: white;
-         height: 150px;
-         border-radius: 8px;
-      }
+   <link rel="stylesheet" href="style.css">
 
-      .counter-icon {
-         font-size: 2rem;
-         margin-bottom: 10px;
-      }
-   </style>
 </head>
 
 <body>
    <!-- Header -->
-   <div class="header">
-      <img src="../avatar.jpg" alt="User Avatar">
-      <div class="user-info">
-         <h1><?= $_SESSION['fullname'] ?></h1>
-         <p>Welcome back ! MBKM APPS</p>
-      </div>
-   </div>
+   <?php
+   require 'header.php';
+   ?>
 
    <!-- Main Content -->
    <div class="main">
@@ -175,36 +44,56 @@ require '../controller/view.php';
       <div class="tab-content" id="nav-tabContent">
          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
             <div class="card">
-               <div class="card-body">
-                  <div class="mb-3">
-                     <label for="description" class="form-label">Deskripsi</label>
-                     <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+               <form action="" method="POST">
+                  <input type="hidden" name="user" value="<?= $_SESSION['username'] ?>">
+                  <div class="card-body">
+                     <div class="mb-3">
+                        <label for="description" class="form-label">Deskripsi</label>
+                        <textarea name="deskripsi" id="description" class="form-control" rows="4"></textarea>
+                     </div>
+                     <div class="mb-3">
+                        <label for="luaran" class="form-label">Luaran Aktivitas</label>
+                        <textarea name="luaran" id="luaran" class="form-control" rows="4"></textarea>
+                     </div>
+                     <button type="submit" name="logbook" class="btn btn-ungu text-white">Simpan</button>
                   </div>
-                  <div class="mb-3">
-                     <label for="outcome" class="form-label">Luaran Aktivitas</label>
-                     <textarea name="outcome" id="outcome" class="form-control" rows="4"></textarea>
-                  </div>
-                  <button class="btn btn-ungu text-white">Simpan</button>
-               </div>
+               </form>
             </div>
          </div>
          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
             <div class="card">
+               <?php
+               $checklog = mysqli_query($koneksi, "SELECT * FROM report_log_book WHERE npm = '$npm' ");
+               $datalog = mysqli_fetch_array($checklog);
+               $getlog = tampildata("SELECT * FROM report_log_book WHERE npm = '$npm' ");
+               ?>
                <div class="card-body">
-                  <blockquote class="blockquote mb-0">
-                     <ol class="list-group list-group-numbered">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                           <div class="ms-2 me-auto">
-                              <div class="fw-bold"><?= date('Y-m-d H:i:s') ?></div>
-                              <p class="small-font">Description</p>
-                              <p class="small-font">Luaran Aktivitas</p>
-                           </div>
-                           <a href="" target="_blank" download="">
-                              <span class="badge text-bg-primary">Download File</span>
-                           </a>
-                        </li>
+                  <?php
+                  if ($datalog == NULL) { ?>
+                     <div class="alert mt-3 alert-warning d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <div>
+                           Belum ada mengirimkan log book
+                        </div>
+                     </div>
+                  <?php   } else { ?>
+                     <ol class="list-group list-group-numbered" style="font-size: 12px;">
+                        <?php foreach ($getlog as $datalog): ?>
+                           <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <div class="ms-2 me-auto">
+                                 <div class="fw-bold" style="font-size: 12px;"><?= $datalog['create_at'] ?></div>
+                                 <p style="font-size: 12px;">Deskripsi : <?= $datalog['description'] ?> </p>
+                                 <p class="small-font">Luaran Aktivitas : <?= $datalog['outcome'] ?></p>
+                              </div>
+                              <a href="" target="_blank" download="">
+                                 <span class="badge text-bg-primary">Download File</span>
+                              </a>
+                           </li>
+                        <?php endforeach ?>
                      </ol>
-                  </blockquote>
+                  <?php  }
+                  ?>
+
                </div>
             </div>
          </div>
@@ -212,6 +101,51 @@ require '../controller/view.php';
    </div>
    <?php
    require 'menu.php';
+   ?>
+   <?php
+   if (isset($_SESSION['sukses'])) {
+      echo "<div class='toast-container position-fixed bottom-0 end-0 p-3'>
+        <div class='toast show' role='alert' aria-live='assertive' aria-atomic='true'>
+            <div class='toast-header'>
+                <strong class='me-auto'>Berhasil</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>
+            </div>
+            <div class='toast-body'>
+                " . $_SESSION['sukses'] . "
+            </div>
+        </div>
+    </div>
+    <script>
+        var toast = new bootstrap.Toast(document.querySelector('.toast'));
+        toast.show();
+        toast._element.addEventListener('hidden.bs.toast', function () {
+            window.location = 'laporan'; // Redirect after toast hides
+        });
+    </script>";
+      unset($_SESSION['sukses']);
+   }
+
+   if (isset($_SESSION['error'])) {
+      echo "<div class='toast-container position-fixed bottom-0 end-0 p-3'>
+        <div class='toast show' role='alert' aria-live='assertive' aria-atomic='true'>
+            <div class='toast-header'>
+                <strong class='me-auto'>Berhasil</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>
+            </div>
+            <div class='toast-body'>
+                " . $_SESSION['error'] . "
+            </div>
+        </div>
+    </div>
+    <script>
+        var toast = new bootstrap.Toast(document.querySelector('.toast'));
+        toast.show();
+        toast._element.addEventListener('hidden.bs.toast', function () {
+            window.location = 'laporan'; // Redirect after toast hides
+        });
+    </script>";
+      unset($_SESSION['error']);
+   }
    ?>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
