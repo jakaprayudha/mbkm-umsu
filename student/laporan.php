@@ -49,7 +49,6 @@ $program = $data['id_peserta'];
                      <i class="fas fa-plus"></i> <!-- Ikon plus -->
                   </button>
                </div>
-
                <div class="card-body">
                   <?php
                   $checklaporanmon = mysqli_query($koneksi, "SELECT * FROM report_monthly WHERE npm='$npm'");
@@ -122,30 +121,94 @@ $program = $data['id_peserta'];
                   ?>
 
                </div>
-
             </div>
          </div>
          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
             <div class="card">
+               <?php
+               $checklaporanend = mysqli_query($koneksi, "SELECT * FROM report_end WHERE npm='$npm'");
+               $datalaporanend = mysqli_fetch_array($checklaporanend);
+               ?>
                <div class="card-header d-flex justify-content-between align-items-center">
-                  <button class="btn btn-ungu text-white" data-bs-toggle="modal" data-bs-target="#add-akhir">
-                     <i class="fas fa-plus"></i> <!-- Ikon plus -->
-                  </button>
+                  <?php
+                  if ($datalaporanend == NULL) { ?>
+                     <button class="btn btn-ungu btn-sm text-white" data-bs-toggle="modal" data-bs-target="#add-end">
+                        <i class="fas fa-plus"></i> <!-- Ikon plus -->
+                     </button>
+                  <?php } else { ?>
+                     <button class="btn btn-warning btn-sm text-white" data-bs-toggle="modal" data-bs-target="#edit-end">
+                        <i class="fas fa-edit"></i> <!-- Ikon plus -->
+                     </button>
+                  <?php }
+                  ?>
                </div>
                <div class="card-body">
-                  <blockquote class="blockquote mb-0">
-                     <ol class="list-group list-group-numbered">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                           <div class="ms-2 me-auto">
-                              <div class="fw-bold">Judul Laporan</div>
-                              <p class="small-font">Description</p>
-                           </div>
-                           <a href="" target="_blank" download="">
-                              <span class="badge text-bg-primary">Download File</span>
-                           </a>
-                        </li>
+                  <?php
+                  if ($datalaporanend == NULL) { ?>
+                     <div class="alert mt-3 alert-warning d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <div>
+                           Belum ada laporan akhir yang anda kirimkan
+                        </div>
+                     </div>
+                  <?php } else { ?>
+                     <?php
+                     $getlaporanend = tampildata("SELECT * FROM report_end WHERE npm='$npm' ");
+                     ?>
+                     <ol class="list-group">
+                        <?php foreach ($getlaporanend as $laporanend): ?>
+                           <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <div class="ms-2 me-auto">
+                                 <div class="fw-bold"><?= $laporanend['title'] ?></div>
+                                 <p style="font-size: 12px;" class="text-wrap"><?= $laporanend['description'] ?></p>
+                                 <hr>
+                                 <p style="font-size: 12px;"><?= $laporanend['create_at'] ?></p>
+                              </div>
+                              <?php
+                              if ($laporanend['dokumen'] == NULL) { ?>
+                                 <span class="badge text-bg-danger" data-bs-toggle="modal" data-bs-target="#upload<?= $laporanend['id_rpt_mnth'] ?>">Upload File</span>
+                              <?php  } else { ?>
+                                 <a href="../file/report/<?= $laporanend['dokumen'] ?>" target="_blank" download="">
+                                    <span class="badge text-bg-primary">Download File</span>
+                                 </a>
+                              <?php  }
+                              ?>
+                              <!-- Modal -->
+                              <div class="modal fade" id="upload<?= $laporanend['id_rpt_mnth'] ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">File Upload</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <form action="" method="POST" enctype="multipart/form-data">
+                                          <input type="hidden" name="id" value="<?= $laporanend['id_rpt_mnth'] ?>">
+                                          <div class="modal-body">
+                                             <div class="alert mt-3 alert-danger d-flex align-items-center" role="alert">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <div>
+                                                   Format File PDF atau JPG dengan maksimal File 2 MB
+                                                </div>
+                                             </div>
+                                             <div class="mb-3">
+                                                <label for="dokumen" class="form-label">File</label>
+                                                <input type="file" class="form-control" id="dokumen" name="dokumen" required>
+                                             </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                             <button type="submit" name="upload-month" class="btn btn-ungu text-white">Upload Proses</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </li>
+                        <?php endforeach ?>
                      </ol>
-                  </blockquote>
+                  <?php    }
+                  ?>
+
                </div>
             </div>
          </div>
@@ -233,8 +296,9 @@ $program = $data['id_peserta'];
 </div>
 
 
+
 <!-- Modal -->
-<div class="modal fade" id="add-akhir" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="add-end" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
          <div class="modal-header">
@@ -242,20 +306,61 @@ $program = $data['id_peserta'];
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <form action="" method="POST" enctype="multipart/form-data">
-
+            <input type="hidden" name="id" value="<?= $_SESSION['username'] ?>">
             <div class="modal-body">
-               <div class="mb-3">
-                  <label for="deskripsi" class="form-label">Deskripsi</label>
-                  <textarea name="deskripsi" id="deskripsi" class="form-control" rows="4"></textarea>
+               <div class="alert mt-3 alert-danger d-flex align-items-center" role="alert">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  <div>
+                     Format File PDF atau JPG dengan maksimal File 2 MB
+                  </div>
                </div>
                <div class="mb-3">
                   <label for="dokumen" class="form-label">File</label>
-                  <input type="file" class="form-control" id="dokumen" name="dokumen">
+                  <input type="file" class="form-control" id="dokumen" name="dokumen" required>
+               </div>
+               <div class="mb-3">
+                  <label for="deskripsi" class="form-label">Deskripsi</label>
+                  <textarea name="deskripsi" id="deskripsi" class="form-control" rows="4" required></textarea>
                </div>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-               <button type="submit" name="report-month" class="btn btn-ungu text-white">Simpan</button>
+               <button type="submit" name="upload-end" class="btn btn-ungu text-white">Simpan</button>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="edit-end" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Laporan Akhir</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <form action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?= $datalaporanend['id_rpt_end'] ?>">
+            <div class="modal-body">
+               <div class="alert mt-3 alert-danger d-flex align-items-center" role="alert">
+                  <i class="fas fa-exclamation-triangle me-2"></i>
+                  <div>
+                     Format File PDF atau JPG dengan maksimal File 2 MB
+                  </div>
+               </div>
+               <div class="mb-3">
+                  <label for="dokumen" class="form-label">File</label>
+                  <input type="file" class="form-control" id="dokumen" name="dokumen" required>
+               </div>
+               <div class="mb-3">
+                  <label for="deskripsi" class="form-label">Deskripsi</label>
+                  <textarea name="deskripsi" id="deskripsi" class="form-control" rows="4" required><?= $datalaporanend['description'] ?></textarea>
+               </div>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+               <button type="submit" name="upload-end-update" class="btn btn-ungu text-white">Simpan</button>
             </div>
          </form>
       </div>
