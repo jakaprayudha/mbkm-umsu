@@ -134,29 +134,72 @@ require '../controller/view.php';
 
 <body>
    <!-- Header -->
-   <div class="header">
-      <img src="../avatar.jpg" alt="User Avatar">
-      <div class="user-info">
-         <h1><?= $_SESSION['fullname'] ?></h1>
-         <p>Welcome back ! MBKM APPS</p>
-      </div>
-   </div>
+   <?php
+   require 'header.php';
+   ?>
+
 
    <!-- Main Content -->
    <div class="main">
       <h2>Dashboard</h2>
-      <div class="row">
-         <div class="col-12">
-            <div class="card">
-               <img src="../Logo_Kampus_Merdeka_Kemendikbud (1).svg" class="card-img-top" alt="...">
-               <div class="card-body">
-                  <p class="card-text">
-                     Kampus Merdeka (MBKM) adalah program pendidikan yang diluncurkan oleh Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi (Kemendikbudristek) Indonesia untuk meningkatkan kualitas pendidikan tinggi dan memperkuat link and match antara dunia pendidikan dan dunia kerja. Program ini bertujuan untuk memberikan kebebasan kepada mahasiswa untuk mengembangkan potensi diri melalui berbagai pengalaman di luar kampus yang relevan dengan bidang studi yang diambil.
-                  </p>
+      <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel">
+         <div class="carousel-inner">
+            <div class="carousel-item active">
+               <div class="row justify-content-center">
+                  <div class="col-12 col-md-4">
+                     <div class="card">
+                        <img src="../mbkmumsu.svg" class="card-img-top" alt="..." />
+                        <div class="card-body">
+                           <p class="card-text">
+                              Kampus Merdeka (MBKM) adalah program pendidikan yang diluncurkan oleh Kementerian Pendidikan, Kebudayaan, Riset, dan Teknologi (Kemendikbudristek)
+                           </p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="carousel-item">
+               <div class="row justify-content-center">
+                  <div class="col-12 col-md-4">
+                     <div class="card">
+                        <img src="../mbkmumsu.svg" class="card-img-top" alt="..." />
+                        <div class="card-body">
+                           <p class="card-text">
+                              Another card description here...
+                           </p>
+                        </div>
+                     </div>
+                  </div>
                </div>
             </div>
          </div>
+         <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+         </button>
+         <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+         </button>
       </div>
+
+      <!-- Custom CSS -->
+      <style>
+         .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+         }
+
+         .card-body {
+            flex-grow: 1;
+         }
+
+         .card-img-top {
+            height: 200px;
+            object-fit: cover;
+         }
+      </style>
    </div>
    <?php
    require 'menu.php';

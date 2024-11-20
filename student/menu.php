@@ -6,7 +6,7 @@ $page = $segments[3] ?? ''; // Ambil 'dashboard-mbkm'
 ?>
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
-   <a href="index" <?php if ($page == 'index') echo 'class="active"'; ?>>
+   <a href="index" <?php if ($page == 'index' or $page == '') echo 'class="active"'; ?>>
       <i class="fas fa-home"></i>
       <span>Beranda</span>
    </a>

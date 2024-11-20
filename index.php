@@ -8,6 +8,10 @@ require 'controller/auth.php';
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>MBKM</title>
+   <!-- Other head content -->
+   <link rel="icon" href="mbkmumsu.svg" type="image/x-icon">
+   <!-- or if using a PNG favicon -->
+   <link rel="icon" href="mbkmumsu.svg" type="image/png">
 
    <!-- <script src="assets/js/sweet-alert/sweetalert.min.js"></script> -->
    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
