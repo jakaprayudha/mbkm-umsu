@@ -1,5 +1,13 @@
 <?php
 require '../controller/view.php';
+require '../controller/laporan.php';
+$user = $_SESSION['username'];
+$checkuser = mysqli_query($koneksi, "SELECT * FROM ms_mahasiswa WHERE email = '$user' ");
+$datauser = mysqli_fetch_array($checkuser);
+$npm = $datauser['id_mahasiswa'];
+$checkprogram = mysqli_query($koneksi, "SELECT * FROM student_mbkm WHERE npm='$npm'");
+$data = mysqli_fetch_array($checkprogram);
+$program = $data['id_peserta'];
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -9,156 +17,17 @@ require '../controller/view.php';
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Mobile App Template</title>
    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-   <style>
-      /* Reset dasar */
-      * {
-         margin: 0;
-         padding: 0;
-         box-sizing: border-box;
-      }
 
-      body {
-         font-family: Arial, sans-serif;
-         background-color: #f4f4f9;
-         display: flex;
-         flex-direction: column;
-         min-height: 100vh;
-         margin: 0;
-      }
-
-      /* Header */
-      .header {
-         background: linear-gradient(135deg, #512da8, #673ab7);
-         padding: 20px;
-         display: flex;
-         align-items: center;
-         color: #fff;
-      }
-
-      .header img {
-         width: 50px;
-         height: 50px;
-         border-radius: 50%;
-         margin-right: 15px;
-      }
-
-      .header .user-info {
-         flex-grow: 1;
-      }
-
-      .header .user-info h1 {
-         font-size: 18px;
-         margin: 0;
-      }
-
-      .header .user-info p {
-         margin: 5px 0 0;
-         font-size: 14px;
-         color: #e0e0e0;
-      }
-
-      /* Main Content */
-      .main {
-         flex: 1;
-         padding: 20px;
-      }
-
-      /* Bottom Navigation */
-      .bottom-nav {
-         position: fixed;
-         bottom: 0;
-         left: 0;
-         width: 100%;
-         background: #fff;
-         box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-         display: flex;
-         justify-content: space-between;
-         padding: 10px 0;
-      }
-
-      .bottom-nav a {
-         flex-grow: 1;
-         text-align: center;
-         text-decoration: none;
-         color: #757575;
-         font-size: 12px;
-         display: flex;
-         flex-direction: column;
-         align-items: center;
-      }
-
-      .bottom-nav a i {
-         font-size: 20px;
-         margin-bottom: 5px;
-      }
-
-      .bottom-nav a.active {
-         color: #673ab7;
-      }
-
-      /* Responsif */
-      @media (max-width: 768px) {
-         .header img {
-            width: 40px;
-            height: 40px;
-         }
-
-         .header .user-info h1 {
-            font-size: 16px;
-         }
-
-         .header .user-info p {
-            font-size: 12px;
-         }
-      }
-
-      .btn-ungu {
-         background-color: #6f42c1;
-         /* Warna ungu */
-         border-color: #6f42c1;
-         /* Border ungu */
-      }
-
-      .btn-ungu:hover {
-         background-color: #5a32a3;
-         /* Warna ungu lebih gelap saat hover */
-         border-color: #5a32a3;
-      }
-
-      .small-font {
-         font-size: 0.8rem;
-         /* Ukuran font yang lebih kecil */
-      }
-   </style>
    <!-- Ikon FontAwesome -->
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-   <style>
-      .counter-card {
-         display: flex;
-         align-items: center;
-         justify-content: center;
-         text-align: center;
-         color: white;
-         height: 150px;
-         border-radius: 8px;
-      }
-
-      .counter-icon {
-         font-size: 2rem;
-         margin-bottom: 10px;
-      }
-   </style>
+   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
    <!-- Header -->
-   <div class="header">
-      <img src="../avatar.jpg" alt="User Avatar">
-      <div class="user-info">
-         <h1><?= $_SESSION['fullname'] ?></h1>
-         <p>Welcome back ! MBKM APPS</p>
-      </div>
-   </div>
+   <?php
+   require 'header.php';
+   ?>
 
    <!-- Main Content -->
    <div class="main">
@@ -176,25 +45,84 @@ require '../controller/view.php';
          <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
             <div class="card">
                <div class="card-header d-flex justify-content-between align-items-center">
-                  <button class="btn btn-ungu text-white" data-bs-toggle="modal" data-bs-target="#add">
+                  <button class="btn btn-ungu btn-sm text-white" data-bs-toggle="modal" data-bs-target="#add">
                      <i class="fas fa-plus"></i> <!-- Ikon plus -->
                   </button>
                </div>
+
                <div class="card-body">
-                  <blockquote class="blockquote mb-0">
+                  <?php
+                  $checklaporanmon = mysqli_query($koneksi, "SELECT * FROM report_monthly WHERE npm='$npm'");
+                  $datalaporanmon = mysqli_fetch_array($checklaporanmon);
+                  if ($datalaporanmon == NULL) { ?>
+                     <div class="alert mt-3 alert-warning d-flex align-items-center" role="alert">
+                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <div>
+                           Belum ada laporan bulanan yang anda kirimkan
+                        </div>
+                     </div>
+                  <?php } else { ?>
+                     <?php
+                     $getlaporanbln = tampildata("SELECT * FROM report_monthly WHERE npm='$npm' ");
+                     ?>
                      <ol class="list-group list-group-numbered">
-                        <li class="list-group-item d-flex justify-content-between align-items-start">
-                           <div class="ms-2 me-auto">
-                              <div class="fw-bold">Judul Laporan</div>
-                              <p class="small-font">Description</p>
-                           </div>
-                           <a href="" target="_blank" download="">
-                              <span class="badge text-bg-primary">Download File</span>
-                           </a>
-                        </li>
+                        <?php foreach ($getlaporanbln as $laporanbln): ?>
+                           <li class="list-group-item d-flex justify-content-between align-items-start">
+                              <div class="ms-2 me-auto">
+                                 <div class="fw-bold"><?= $laporanbln['title'] ?></div>
+                                 <p style="font-size: 12px;" class="text-wrap"><?= $laporanbln['description'] ?></p>
+                                 <hr>
+                                 <p style="font-size: 12px;"><?= $laporanbln['create_at'] ?></p>
+                              </div>
+                              <?php
+                              if ($laporanbln['dokumen'] == NULL) { ?>
+                                 <span class="badge text-bg-danger" data-bs-toggle="modal" data-bs-target="#upload<?= $laporanbln['id_rpt_mnth'] ?>">Upload File</span>
+                              <?php  } else { ?>
+                                 <a href="../file/report/<?= $laporanbln['dokumen'] ?>" target="_blank" download="">
+                                    <span class="badge text-bg-primary">Download File</span>
+                                 </a>
+                              <?php  }
+                              ?>
+
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="upload<?= $laporanbln['id_rpt_mnth'] ?>" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                       <div class="modal-header">
+                                          <h1 class="modal-title fs-5" id="exampleModalLabel">File Upload</h1>
+                                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                       </div>
+                                       <form action="" method="POST" enctype="multipart/form-data">
+                                          <input type="hidden" name="id" value="<?= $laporanbln['id_rpt_mnth'] ?>">
+                                          <div class="modal-body">
+                                             <div class="alert mt-3 alert-danger d-flex align-items-center" role="alert">
+                                                <i class="fas fa-exclamation-triangle me-2"></i>
+                                                <div>
+                                                   Format File PDF atau JPG dengan maksimal File 2 MB
+                                                </div>
+                                             </div>
+                                             <div class="mb-3">
+                                                <label for="dokumen" class="form-label">File</label>
+                                                <input type="file" class="form-control" id="dokumen" name="dokumen" required>
+                                             </div>
+                                          </div>
+                                          <div class="modal-footer">
+                                             <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                                             <button type="submit" name="upload-month" class="btn btn-ungu text-white">Upload Proses</button>
+                                          </div>
+                                       </form>
+                                    </div>
+                                 </div>
+                              </div>
+                           </li>
+                        <?php endforeach ?>
                      </ol>
-                  </blockquote>
+                  <?php    }
+                  ?>
+
                </div>
+
             </div>
          </div>
          <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
@@ -227,8 +155,54 @@ require '../controller/view.php';
    require 'menu.php';
    ?>
    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+   <?php
+   if (isset($_SESSION['sukses'])) {
+      echo "<div class='toast-container position-fixed bottom-0 end-0 p-3'>
+        <div class='toast show' role='alert' aria-live='assertive' aria-atomic='true'>
+            <div class='toast-header'>
+                <strong class='me-auto'>Berhasil</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>
+            </div>
+            <div class='toast-body'>
+                " . $_SESSION['sukses'] . "
+            </div>
+        </div>
+    </div>
+    <script>
+        var toast = new bootstrap.Toast(document.querySelector('.toast'));
+        toast.show();
+        toast._element.addEventListener('hidden.bs.toast', function () {
+            window.location = 'laporan'; // Redirect after toast hides
+        });
+    </script>";
+      unset($_SESSION['sukses']);
+   }
 
+   if (isset($_SESSION['error'])) {
+      echo "<div class='toast-container position-fixed bottom-0 end-0 p-3'>
+        <div class='toast show' role='alert' aria-live='assertive' aria-atomic='true'>
+            <div class='toast-header'>
+                <strong class='me-auto'>Berhasil</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='toast' aria-label='Close'></button>
+            </div>
+            <div class='toast-body'>
+                " . $_SESSION['error'] . "
+            </div>
+        </div>
+    </div>
+    <script>
+        var toast = new bootstrap.Toast(document.querySelector('.toast'));
+        toast.show();
+        toast._element.addEventListener('hidden.bs.toast', function () {
+            window.location = 'laporan'; // Redirect after toast hides
+        });
+    </script>";
+      unset($_SESSION['error']);
+   }
+   ?>
 </body>
+
+
 <!-- Modal -->
 <div class="modal fade" id="add" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
    <div class="modal-dialog modal-dialog-centered">
@@ -238,28 +212,26 @@ require '../controller/view.php';
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <form action="" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id" value="<?= $_SESSION['username'] ?>">
             <div class="modal-body">
                <div class="mb-3">
                   <label for="judul" class="form-label">Judul Laporan</label>
-                  <input type="email" class="form-control" id="judul" name="judul">
+                  <input type="text" class="form-control" id="judul" name="judul" required>
                </div>
                <div class="mb-3">
                   <label for="deskripsi" class="form-label">Deskripsi</label>
-                  <textarea name="deskripsi" id="deskripsi" class="form-control" rows="4"></textarea>
-               </div>
-               <div class="mb-3">
-                  <label for="dokumen" class="form-label">File</label>
-                  <input type="file" class="form-control" id="dokumen" name="dokumen">
+                  <textarea name="deskripsi" id="deskripsi" class="form-control" rows="4" required></textarea>
                </div>
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-               <button type="submit" name="laporan-bulanan" class="btn btn-ungu text-white">Simpan</button>
+               <button type="submit" name="report-month" class="btn btn-ungu text-white">Simpan</button>
             </div>
          </form>
       </div>
    </div>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade" id="add-akhir" data-bs-backdrop="static" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -270,6 +242,7 @@ require '../controller/view.php';
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <form action="" method="POST" enctype="multipart/form-data">
+
             <div class="modal-body">
                <div class="mb-3">
                   <label for="deskripsi" class="form-label">Deskripsi</label>
@@ -282,7 +255,7 @@ require '../controller/view.php';
             </div>
             <div class="modal-footer">
                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
-               <button type="submit" name="laporan-bulanan" class="btn btn-ungu text-white">Simpan</button>
+               <button type="submit" name="report-month" class="btn btn-ungu text-white">Simpan</button>
             </div>
          </form>
       </div>

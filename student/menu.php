@@ -10,7 +10,7 @@ $page = $segments[3] ?? ''; // Ambil 'dashboard-mbkm'
       <i class="fas fa-home"></i>
       <span>Beranda</span>
    </a>
-   <a href="index" <?php if ($page == 'laporan') echo 'class="active"'; ?>>
+   <a href="laporan" <?php if ($page == 'laporan') echo 'class="active"'; ?>>
       <i class="fas fa-file"></i>
       <span>Laporan</span>
    </a>
